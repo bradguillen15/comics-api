@@ -1,16 +1,22 @@
-const Sequelize = require('sequelize');
+const mysql = require('mysql');
 const { database } = require('./credentials');
 
-const DB = () =>
-  new Sequelize(
-    database.name,
-    database.username,
-    database.password,
-    {
-      host: database.host,
-      port: database.port,
-      dialect: 'mysql'
-    }
-  );
+const connection = mysql.createConnection({
+  host: database.hostname,
+  user: database.username,
+  password: database.password,
+  port: database.port
+});
 
-module.exports = DB();
+connection.connect((err) => {
+  if (err) {
+    console.error(`Database connection failed: ${err.stack}`);
+    return;
+  }
+
+  console.log('Connected to database.');
+});
+
+connection.end();
+
+module.exports = connection;
