@@ -3,18 +3,9 @@ const { database } = require('./credentials');
 
 const DB = () =>
   new Sequelize(
-    database.url,
+    `${database.host}:${database.port}/${database.name}`,
     database.username,
-    database.password,
-    {
-      url: 'localhost',
-      dialect: 'mysql',
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000,
-      },
-    },
+    database.password
   );
 
 module.exports = new DB();

@@ -1,8 +1,10 @@
 const credentials = () => ({
   database: {
-    url: '',
-    username: '',
-    password: '',
+    host: 'myudappdb.cnxbtyigrqke.us-east-1.rds.amazonaws.com',
+    name: 'app',
+    port: 3306,
+    username: 'administrator',
+    password: 'UltraDoujinshi2017',
   },
 });
 

@@ -1,8 +1,8 @@
-const Comic = require('./comicModel');
+// const Comic = require('./comicModel');
 
 const comicService = () => ({
   getAll: () => {
-    Comic.findAll().then(comics => comics);
+    // Comic.findAll().then(comics => comics);
   },
 });
 

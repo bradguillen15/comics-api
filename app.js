@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./config/db');
 
 const server = () => {
   const routeList = Object.freeze([
@@ -12,7 +13,13 @@ const server = () => {
 
   return app.listen(
     3000,
-    () => console.log('Comics app listening on port 3000!')
+    () => db.authenticate()
+      .then(() => {
+        console.log('Connection has been established successfully.');
+      })
+      .catch((err) => {
+        console.error('Unable to connect to the database:', err);
+      })
   );
 };
 
