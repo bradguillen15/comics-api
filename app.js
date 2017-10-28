@@ -1,21 +1,20 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const db = require('./config/db');
+const { server } = require('./config/credentials');
 
-const server = () => {
-  const routeList = Object.freeze([
-    { uri: '/user', module: './src/user/userRouter' },
-    { uri: '/comic', module: './src/comic/comicRouter' },
-  ]);
-
-  const app = express();
-  app.use(bodyparser);
+const app = () => {
+  const expressApp = express();
+  expressApp.use(bodyparser);
 
   // eslint-disable-next-line global-require,import/no-dynamic-require
-  routeList.forEach(route => app.use(route.uri, require(route.module)));
+  server.routes.forEach(route => expressApp.use(route.uri, require(route.module)));
 
-  return app.listen(
-    3000,
+  expressApp.get('/:userId', (req, res) =>
+    res.send('Api is running in port 3000'));
+
+  return expressApp.listen(
+    server.port,
     () => db.authenticate()
       .then(() => {
         console.log('Connection has been established successfully.');
@@ -26,4 +25,4 @@ const server = () => {
   );
 };
 
-module.exports = server();
+module.exports = app();
