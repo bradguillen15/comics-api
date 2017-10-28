@@ -7,7 +7,8 @@ const DB = () =>
     database.username,
     database.password,
     {
-      host: `${database.host}:${database.port}/${database.name}`,
+      host: database.host,
+      port: database.port,
       dialect: 'mysql'
     }
   );
