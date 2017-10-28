@@ -5,7 +5,10 @@ const DB = () =>
   new Sequelize(
     `${database.host}:${database.port}/${database.name}`,
     database.username,
-    database.password
+    database.password,
+    {
+      dialect: 'mysql'
+    }
   );
 
-module.exports = new DB();
+module.exports = DB();
