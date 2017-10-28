@@ -1,16 +1,17 @@
 const express = require('express');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 const db = require('./config/db');
 const { server } = require('./config/credentials');
 
 const app = () => {
   const expressApp = express();
-  expressApp.use(bodyparser);
+  expressApp.use(bodyParser.urlencoded({ extended: true }));
+  expressApp.use(bodyParser.json());
 
   // eslint-disable-next-line global-require,import/no-dynamic-require
   server.routes.forEach(route => expressApp.use(route.uri, require(route.module)));
 
-  expressApp.get('/:userId', (req, res) =>
+  expressApp.get('/', (req, res) =>
     res.send('Api is running in port 3000'));
 
   return expressApp.listen(
