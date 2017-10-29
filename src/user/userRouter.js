@@ -3,7 +3,7 @@ const service = require('./userService');
 
 const userRouter = () => {
   const router = express.Router();
-
+  /*
   router.get('/', (req, res) =>
     service.getAll()
       .then(comics => res.send(comics)));
@@ -13,7 +13,7 @@ const userRouter = () => {
 
   router.post('/', (req, res) =>
     service.upsert(null, req.body.user).then(comics => res.send(comics)));
-
+*/
   return router;
 };
 

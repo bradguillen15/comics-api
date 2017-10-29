@@ -1,7 +1,7 @@
 const User = require('./userModel');
 
 const userService = () => {
-  const getAll = () => User.findAll().then((comics) => comics);
+  const getAll = () => User.findAll().then(comics => comics);
 
   const getById = id => User.findById(id).then(comics => comics);
 

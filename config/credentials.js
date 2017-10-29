@@ -14,8 +14,7 @@ const credentials = () => ({
   server: {
     port: 3000,
     routes: Object.freeze([
-      { uri: '/user', module: './src/user/userRouter' },
-      { uri: '/comic', module: './src/comic/comicRouter' },
+      { uri: '/', module: './src/publication/publicationRouter' },
     ])
   }
 });
