@@ -1,15 +1,31 @@
-const Sequelize = require('sequelize');
+const mysql = require('mysql');
 const { database } = require('./credentials');
 
-const DB = () => new Sequelize(
-  database.name,
-  database.username,
-  database.password,
-  {
+const db = (query) => {
+  const connection = mysql.createConnection({
     host: database.hostname,
-    port: database.port,
-    dialect: 'mysql'
-  }
-);
+    user: database.username,
+    password: database.password,
+    database: database.name
+  });
 
-module.exports = DB();
+  try {
+    return new Promise((resolve, reject) => {
+      connection.connect((err) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+      });
+
+      return connection.query(query, (error, results) => {
+        if (error) throw error;
+        resolve(results);
+      });
+    });
+  } finally {
+    connection.end();
+  }
+};
+
+module.exports = db;

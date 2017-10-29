@@ -1,11 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./config/db');
 const { server } = require('./config/credentials');
 
-const publicationService = require('./src/publication/publicationService');
-const publicationImageService = require('./src/publicationImage/publicationImageService');
-const userService = require('./src/user/userService');
+const db = require('./config/db');
 
 const app = () => {
   const expressApp = express();
@@ -13,63 +10,43 @@ const app = () => {
   expressApp.use(bodyParser.json());
 
   // PublicationRoute
-  expressApp.post('/getPublicaciones', (req, res) =>
-    publicationService.getAll()
-      .then((publications) => {
-        if (!publications) {
-          res.send().state(404);
-        }
-        return publications
-          .filter(publication => publication.estadoComic !== req.body.estadoPublicacion)
-          .map(p => publicationImageService.getLastPublicationImage(p.idPublicacion)
-            .then(publicationImage => res.send({
-              idPublicacion: p.idPublicacion,
-              idUsuario: p.idUsuario,
-              titulo: p.titulo,
-              descripcion: (!p.description) ? '' : p.descripcion.slice(150),
-              precio: p.precio,
-              urlImagen: publicationImage.urlImagen
-            })));
-      })
-      .catch(err => res.send(err).state(500)));
+  expressApp.post('/getPublicaciones', (req, res) => {
+    db(`SELECT publicaciones.idPublicacion, idUsuario, titulo, descripcion, precio, imagenesPublicaciones.urlImagen
+        FROM publicaciones
+        INNER JOIN imagenesPublicaciones ON (publicaciones.idPublicacion = imagenesPublicaciones.idPublicacion)
+        WHERE estadoPublicacion = 1 
+    `).then((data) => {
+      res.send(data);
+    });
+  });
 
-  expressApp.post('/getPublicacion/:idPublicacion', (req, res) =>
-    publicationService.getById(req.params.idPublicacion)
-      .then((publication) => {
-        if (!publication) {
-          res.send().state(404);
-        }
-        return Promise.all([
-          userService.getById(publication.idUsuario),
-          publicationImageService.getAll(),
-        ]).then(data => res.send({
-          idPublicacion: publication.idPublicacion,
-          idUsuario: publication.idUsuario,
-          titulo: publication.titulo,
-          descripcion: publication.descripcion,
-          estadoComic: publication.estadoComic,
-          fechaEdicion: publication.fechaEdicion,
-          estadoPublicacion: publication.estadoPublicacion,
-          nombreUsuario: data[0].nombre,
-          imagenes: data[1]
-            .filter(i => i.idImagenPublicacion === publication.idPublicacion)
-            .map(i => ({ idImagenPublicacion: i.idImagenPublicacion, urlImagen: i.urlImagen }))
-        }));
-      })
-      .catch(err => res.send(err).state(500)));
+  expressApp.post('/getPublicacion/:idPublicacion', (req, res) => {
+    db(`SELECT publicaciones.idPublicacion, publicaciones.idUsuario, titulo, descripcion, estadoComic, precio, fechaEdicion, estadoPublicacion, usuarios.nombre, imagenesPublicaciones.idImagenPublicacion , imagenesPublicaciones.urlImagen
+        FROM publicaciones
+        INNER JOIN usuarios ON (publicaciones.idUsuario = usuarios.idUsuario)
+        INNER JOIN imagenesPublicaciones ON (publicaciones.idPublicacion = imagenesPublicaciones.idPublicacion)
+        WHERE publicaciones.idPublicacion = ${req.params.idPublicacion} 
+    `).then((data) => {
+      res.send({
+        idPublicacion: data[0].idPublicacion,
+        idUsuario: data[0].idUsuario,
+        titulo: data[0].titulo,
+        descripcion: data[0].descripcion,
+        precio: data[0].precio,
+        fechaEdicion: data[0].fechaEdicion,
+        nombre: data[0].nombre,
+        imagenes: data.map(d =>
+          ({ idImagenPublicacion: d.idImagenPublicacion, urlImagen: d.urlImagen })),
+      });
+    });
+  });
 
   expressApp.get('/', (req, res) =>
     res.send('Api is running in port 3000'));
 
   return expressApp.listen(
     server.port,
-    () => db.authenticate()
-      .then(() => {
-        console.log('Connection has been established successfully.');
-      })
-      .catch((err) => {
-        console.error('Unable to connect to the database:', err);
-      })
+    () => console.log('Connection has been established successfully.')
   );
 };
 
