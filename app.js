@@ -86,19 +86,13 @@ const app = () => {
 
   // Chat Route
   expressApp.post('/getChats/:userId', (req, res) => {
-    db(`SELECT u.nombre, u.imagenUrl, 
-        (SELECT COUNT(c.idMensaje) 
-        FROM mensajes as c 
-        WHERE c.estadoMensaje = ${req.params.userId} 
-        AND ((c.idEmisor = ${req.params.userId} || c.idReceptor = ${req.params.userId} ) 
-        AND (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
-        (SELECT n.fechaCreacion FROM mensajes as n 
-        WHERE ((n.idEmisor = ${req.params.userId} || n.idReceptor = ${req.params.userId} ) 
-        AND (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario ))  
-        ORDER BY n.fechaCreacion DESC LIMIT ${req.params.userId} ) as ultimoMensaje 
-        FROM usuarios as u 
-        INNER JOIN mensajes as m ON ((m.idEmisor = ${req.params.userId} || m.idReceptor = ${req.params.userId} ) 
-        AND (m.idEmisor = u.idUsuario || m.idReceptor = u.idUsuario )) WHERE u.idUsuario != ${req.params.userId} GROUP BY u.idUsuario`)
+    db(`SELECT u.nombre, u.imagenUrl,
+        (SELECT COUNT(c.idMensaje) FROM mensajes as c 
+        WHERE c.estadoMensaje =1 AND ((c.idEmisor = 1 || c.idReceptor = 1 ) && (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
+        (SELECT n.fechaCreacion FROM mensajes as n WHERE ((n.idEmisor = 1 || n.idReceptor = 1 ) && (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario )) ORDER BY n.fechaCreacion DESC LIMIT 1 ) as ultimoMensaje 
+        FROM usuarios as u, mensajes as m  
+        WHERE u.idUsuario != ${req.params.userId} AND ((m.idEmisor = ${req.params.userId} || m.idReceptor = ${req.params.userId} ) AND (m.idEmisor = u.idUsuario || m.idReceptor = u.idUsuario ))
+        GROUP BY u.idUsuario`)
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send(data);
