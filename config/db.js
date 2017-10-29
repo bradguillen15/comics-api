@@ -19,7 +19,7 @@ const db = (query) => {
       });
 
       return connection.query(query, (error, results) => {
-        if (error) resolve(results);
+        if (!error) resolve(results);
       });
     });
   } finally {
