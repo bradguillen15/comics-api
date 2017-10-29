@@ -54,6 +54,13 @@ const app = () => {
     }).catch(err => res.send(err).status(500));
   });
 
+  expressApp.post('/addPublicacion', (req, res) => {
+    db('').then((data) => {
+      if (!data) res.send().status(500);
+      return res.send(data);
+    }).catch(err => res.send(err).status(500));
+  });
+
   // User Route
   expressApp.post('/getPerfil/:userId', (req, res) => {
     Promise.all([
@@ -104,7 +111,7 @@ const app = () => {
         FROM mensajes 
         WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
         AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id}) 
-        ORDER BY fechaCreacion ASC LIMIT 30 
+        ORDER BY fechaCreacion DESC LIMIT 30 
         `)
       .then((data) => {
         if (!data) res.send().status(500);
@@ -114,11 +121,11 @@ const app = () => {
 
   expressApp.post('/addMensaje/:user1Id/:user2Id', (req, res) => {
     db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
-        VALUES (${req.body.contenido || '\'\''}, ${req.params.user1Id}, ${req.params.user2Id})
+        VALUES ('${req.body.contenido || ''}', ${req.params.user1Id}, ${req.params.user2Id})
         `)
       .then((data) => {
         if (!data) res.send().status(500);
-        return res.send(data.insertedId);
+        return res.send({ insertId: data.insertId });
       }).catch(err => res.send(err).status(500));
   });
 
