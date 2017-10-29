@@ -12,18 +12,16 @@ const publicationService = () => {
       throw Error(err);
     });
 
-  const getById = (id) => {
-    Publication.findById(id)
-      .then((publication) => {
-        if (!publication) {
-          throw new Error('Not Found');
-        }
-        return publication;
-      })
-      .catch((err) => {
-        throw Error(err);
-      });
-  };
+  const getById = id => Publication.findById(id)
+    .then((publication) => {
+      if (!publication) {
+        throw new Error('Not Found');
+      }
+      return publication;
+    })
+    .catch((err) => {
+      throw Error(err);
+    });
 
   return {
     getAll,

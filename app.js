@@ -22,7 +22,7 @@ const app = () => {
         return publications
           .filter(publication => publication.estadoComic !== req.body.estadoPublicacion)
           .map(p => publicationImageService.getLastPublicationImage(p.idPublicacion)
-            .then(publicationImage => res.json({
+            .then(publicationImage => res.send({
               idPublicacion: p.idPublicacion,
               idUsuario: p.idUsuario,
               titulo: p.titulo,
@@ -39,17 +39,22 @@ const app = () => {
         if (!publication) {
           res.send().state(404);
         }
-        return userService.getById(publication.idUsuario)
-          .then(user => ({
-            idPublicacion: publication.idPublicacion,
-            idUsuario: publication.idUsuario,
-            nombreUsuario: user.nombre,
-            titulo: publication.titulo,
-            descripcion: publication.descripcion,
-            estadoComic: publication.estadoComic,
-            fechaEdicion: publication.fechaEdicion,
-            estadoPublicacion: publication.estadoPublicacion,
-          }));
+        return Promise.all([
+          userService.getById(publication.idUsuario),
+          publicationImageService.getAll(),
+        ]).then(data => res.send({
+          idPublicacion: publication.idPublicacion,
+          idUsuario: publication.idUsuario,
+          titulo: publication.titulo,
+          descripcion: publication.descripcion,
+          estadoComic: publication.estadoComic,
+          fechaEdicion: publication.fechaEdicion,
+          estadoPublicacion: publication.estadoPublicacion,
+          nombreUsuario: data[0].nombre,
+          imagenes: data[1]
+            .filter(i => i.idImagenPublicacion === publication.idPublicacion)
+            .map(i => ({ idImagenPublicacion: i.idImagenPublicacion, urlImagen: i.urlImagen }))
+        }));
       })
       .catch(err => res.send(err).state(500)));
 
