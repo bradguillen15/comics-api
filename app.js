@@ -54,6 +54,7 @@ const app = () => {
     }).catch(err => res.send(err).status(500));
   });
 
+  // User Route
   expressApp.post('/getPerfil/:userId', (req, res) => {
     Promise.all([
       db(`SELECT u.nombre, u.idUsuario, u.fechaCreacion, u.email, 
@@ -81,6 +82,50 @@ const app = () => {
         }))
       });
     }).catch(err => res.send(err).status(500));
+  });
+
+  // Chat Route
+  expressApp.post('/getChats/:userId', (req, res) => {
+    db(`SELECT u.nombre, u.imagenUrl, 
+        (SELECT COUNT(c.idMensaje) 
+        FROM mensajes as c 
+        WHERE c.estadoMensaje = ${req.params.userId} 
+        AND ((c.idEmisor = ${req.params.userId} || c.idReceptor = ${req.params.userId} ) 
+        AND (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
+        (SELECT n.fechaCreacion FROM mensajes as n 
+        WHERE ((n.idEmisor = ${req.params.userId} || n.idReceptor = ${req.params.userId} ) 
+        AND (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario ))  
+        ORDER BY n.fechaCreacion DESC LIMIT ${req.params.userId} ) as ultimoMensaje 
+        FROM usuarios as u 
+        INNER JOIN mensajes as m ON ((m.idEmisor = ${req.params.userId} || m.idReceptor = ${req.params.userId} ) 
+        AND (m.idEmisor = u.idUsuario || m.idReceptor = u.idUsuario )) WHERE u.idUsuario != ${req.params.userId} GROUP BY u.idUsuario`)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send(data);
+      }).catch(err => res.send(err).status(500));
+  });
+
+  expressApp.post('/getChat/:user1Id/:user2Id', (req, res) => {
+    db(`SELECT * 
+        FROM mensajes 
+        WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
+        AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id}) 
+        ORDER BY fechaCreacion ASC LIMIT 30 
+        `)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send(data);
+      }).catch(err => res.send(err).status(500));
+  });
+
+  expressApp.post('/addMensaje/:user1Id/:user2Id', (req, res) => {
+    db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
+        VALUES (${req.body.contenido || '\'\''}, ${req.params.user1Id}, ${req.params.user2Id})
+        `)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send(data.insertedId);
+      }).catch(err => res.send(err).status(500));
   });
 
   expressApp.get('/', (req, res) =>
