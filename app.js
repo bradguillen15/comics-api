@@ -67,7 +67,7 @@ const app = () => {
       `)
     ]).then((data) => {
       if (!data) res.send().status(500);
-      const asd = {
+      return res.send({
         idUsuario: data[0][0].idUsuario,
         nombre: data[0][0].nombre,
         fechaCreacion: data[0][0].fechaCreacion,
@@ -79,9 +79,7 @@ const app = () => {
           precio: p.precio,
           urlImagen: p.urlImagen,
         }))
-      };
-
-      return res.send(asd);
+      });
     }).catch(err => res.send(err).status(500));
   });
 
