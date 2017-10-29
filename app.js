@@ -11,34 +11,78 @@ const app = () => {
 
   // PublicationRoute
   expressApp.post('/getPublicaciones', (req, res) => {
-    db(`SELECT publicaciones.idPublicacion, idUsuario, titulo, descripcion, precio, imagenesPublicaciones.urlImagen
-        FROM publicaciones
-        INNER JOIN imagenesPublicaciones ON (publicaciones.idPublicacion = imagenesPublicaciones.idPublicacion)
-        WHERE estadoPublicacion = 1 
+    db(`SELECT *, 
+        (SELECT i.urlImagen 
+        FROM imagenesPublicaciones as i 
+        WHERE i.idPublicacion = p.idPublicacion 
+        ORDER BY i.fechaCreacion ASC LIMIT 1) as imagenUrl 
+        FROM publicaciones as p 
+        WHERE estadoPublicacion = 1
     `).then((data) => {
-      res.send(data);
-    });
+      if (!data) res.send().status(500);
+      return res.send(data.map(d => ({
+        idPublicacion: d.idPublicacion,
+        idUsuario: d.idUsuario,
+        titulo: d.titulo,
+        descripcion: !d.descripcion || d.descripcion.slice(150),
+        precio: d.precio,
+        urlImagen: d.urlImagen
+      })));
+    }).catch(err => res.send(err).status(500));
   });
 
   expressApp.post('/getPublicacion/:idPublicacion', (req, res) => {
-    db(`SELECT publicaciones.idPublicacion, publicaciones.idUsuario, titulo, descripcion, estadoComic, precio, fechaEdicion, estadoPublicacion, usuarios.nombre, imagenesPublicaciones.idImagenPublicacion , imagenesPublicaciones.urlImagen
-        FROM publicaciones
-        INNER JOIN usuarios ON (publicaciones.idUsuario = usuarios.idUsuario)
-        INNER JOIN imagenesPublicaciones ON (publicaciones.idPublicacion = imagenesPublicaciones.idPublicacion)
-        WHERE publicaciones.idPublicacion = ${req.params.idPublicacion} 
+    db(`SELECT publicaciones.idPublicacion, publicaciones.idUsuario, titulo, descripcion, estadoComic, precio, fechaEdicion, estadoPublicacion, usuarios.nombre, imagenesPublicaciones.idImagenPublicacion , imagenesPublicaciones.urlImagen 
+        FROM publicaciones 
+        INNER JOIN usuarios ON (publicaciones.idUsuario = usuarios.idUsuario) 
+        LEFT JOIN imagenesPublicaciones ON (publicaciones.idPublicacion = imagenesPublicaciones.idPublicacion) 
+        WHERE publicaciones.idPublicacion = ${req.params.idPublicacion}
     `).then((data) => {
-      res.send({
+      if (!data) res.send().status(500);
+      return res.send({
         idPublicacion: data[0].idPublicacion,
         idUsuario: data[0].idUsuario,
         titulo: data[0].titulo,
         descripcion: data[0].descripcion,
+        estadoComic: data[0].estadoComic,
         precio: data[0].precio,
         fechaEdicion: data[0].fechaEdicion,
         nombre: data[0].nombre,
         imagenes: data.map(d =>
           ({ idImagenPublicacion: d.idImagenPublicacion, urlImagen: d.urlImagen })),
       });
-    });
+    }).catch(err => res.send(err).status(500));
+  });
+
+  expressApp.post('/getPerfil/:userId', (req, res) => {
+    Promise.all([
+      db(`SELECT u.nombre, u.idUsuario, u.fechaCreacion, u.email, 
+          (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario AND p.estadoPublicacion = 2 ) as vendidos,  
+          (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario ) as publicados 
+          FROM usuarios as u 
+          WHERE idUsuario = ${req.params.userId}`),
+      db(`SELECT * 
+        FROM publicaciones  
+        WHERE idUsuario = ${req.params.userId}
+      `)
+    ]).then((data) => {
+      if (!data) res.send().status(500);
+      const asd = {
+        idUsuario: data[0][0].idUsuario,
+        nombre: data[0][0].nombre,
+        fechaCreacion: data[0][0].fechaCreacion,
+        vendidos: data[0][0].vendidos,
+        publicados: data[0][0].publicados,
+        publicaciones: data[1].map(p => ({
+          idPublicacion: p.idPublicacion,
+          estadoPublicacion: p.estadoPublicacion,
+          precio: p.precio,
+          urlImagen: p.urlImagen,
+        }))
+      };
+
+      return res.send(asd);
+    }).catch(err => res.send(err).status(500));
   });
 
   expressApp.get('/', (req, res) =>
