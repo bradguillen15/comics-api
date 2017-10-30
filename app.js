@@ -18,7 +18,7 @@ const app = () => {
 
   expressApp.post('/addUsuario', (req, res) => {
 
- console.log(req.payload);
+ console.log(req.body);
     var password = req.body.pass;
     var salt = Bcrypt.genSaltSync();
     console.log(password+'-'+ salt);
