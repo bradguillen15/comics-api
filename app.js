@@ -21,6 +21,7 @@ const app = () => {
  
     var password = req.body.pass;
     var salt = Bcrypt.genSaltSync();
+    console.log(password+'-'+ salt);
     var encryptedPassword = Bcrypt.hashSync(password, salt);
 
 
