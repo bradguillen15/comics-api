@@ -1,14 +1,30 @@
 const AWS = require('aws-sdk');
+const { accessKeyId, secretAccessKey } = require('./config/awsCredentials');
+
+const BUCKET_NAME = 'ultradoujinshi';
+
+AWS.config.update({
+  accessKeyId,
+  secretAccessKey,
+  region: 'sa-east-1'
+});
 
 const s3Service = () => {
-  AWS.config.credentials = new AWS.TemporaryCredentials();
-  new AWS.S3().listBucket((err, data) => {
-    if (err) throw new Error(err);
-    console.log(data);
-  });
+  const uploadFile = file => new Promise((resolve, reject) =>
+    new AWS.S3().putObject(
+      { Bucket: BUCKET_NAME, Key: file.name, Body: file.body },
+      (err, data) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    ));
 
   return {
-
+    uploadFile
   };
 };
 
