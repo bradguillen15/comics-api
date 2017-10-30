@@ -87,7 +87,8 @@ const app = () => {
         idPublicacion: d.idPublicacion,
         idUsuario: d.idUsuario,
         titulo: d.titulo,
-        descripcion: !d.descripcion || d.descripcion.slice(150),
+       // descripcion: !d.descripcion || d.descripcion.slice(150),
+       descripcion: d.descripcion,
         precio: d.precio,
         urlImagen: d.urlImagen
       })));
@@ -158,8 +159,8 @@ const app = () => {
   expressApp.post('/getChats/:userId', (req, res) => {
     db(`SELECT u.nombre, u.imagenUrl,
         (SELECT COUNT(c.idMensaje) FROM mensajes as c 
-        WHERE c.estadoMensaje =1 AND ((c.idEmisor = 1 || c.idReceptor = 1 ) && (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
-        (SELECT n.fechaCreacion FROM mensajes as n WHERE ((n.idEmisor = 1 || n.idReceptor = 1 ) && (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario )) ORDER BY n.fechaCreacion DESC LIMIT 1 ) as ultimoMensaje 
+        WHERE c.estadoMensaje =1 AND ((c.idEmisor = ${req.params.userId} || c.idReceptor = ${req.params.userId} ) && (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
+        (SELECT n.fechaCreacion FROM mensajes as n WHERE ((n.idEmisor = ${req.params.userId} || n.idReceptor = ${req.params.userId} ) && (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario )) ORDER BY n.fechaCreacion DESC LIMIT 1 ) as ultimoMensaje 
         FROM usuarios as u, mensajes as m  
         WHERE u.idUsuario != ${req.params.userId} AND ((m.idEmisor = ${req.params.userId} || m.idReceptor = ${req.params.userId} ) AND (m.idEmisor = u.idUsuario || m.idReceptor = u.idUsuario ))
         GROUP BY u.idUsuario`)
@@ -174,7 +175,7 @@ const app = () => {
         FROM mensajes 
         WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
         AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id}) 
-        ORDER BY fechaCreacion DESC LIMIT 30 
+        ORDER BY idMensaje ASC LIMIT 30 
         `)
       .then((data) => {
         if (!data) res.send().status(500);
