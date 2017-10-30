@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const { server } = require('./config/credentials');
 
 const db = require('./config/db');
@@ -30,6 +31,26 @@ const app = () => {
         return res.send({ insertId: data.insertId });
       }).catch(err => res.send(err).status(500));
   });
+
+
+  expressApp.post('/recuperar', (req, res) => {
+
+    
+    var nueva Math.random().toString(36).substr(2, 8);
+    var password = nueva;
+    var salt = Bcrypt.genSaltSync();
+    var encryptedPassword = Bcrypt.hashSync(password, salt);
+
+
+    db(`UPDATE usuarios SET pass = ? WHERE email=?
+        `,[encryptedPassword, req.body.email])
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ data: data });
+      }).catch(err => res.send(err).status(500));
+  });
+
+
 
 
 
