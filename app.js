@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const Bcrypt = require('bcrypt');
 const { server } = require('./config/credentials');
 
 const db = require('./config/db');
