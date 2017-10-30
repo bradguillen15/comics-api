@@ -19,15 +19,15 @@ const app = () => {
   expressApp.post('/addUsuario', (req, res) => {
 
  console.log(req.body);
-    var password = req.body.pass;
-    var salt = Bcrypt.genSaltSync();
-    console.log(password+'-'+ salt);
-    var encryptedPassword = Bcrypt.hashSync(password, salt);
+    //var password = req.body.pass;
+   // var salt = Bcrypt.genSaltSync();
+   // console.log(password+'-'+ salt);
+    //var encryptedPassword = Bcrypt.hashSync(password, salt);
 
 
     db(`INSERT INTO usuarios (email, pass, nombre, telefono) 
         VALUES (?, ?, ?, ?)
-        `,[req.body.email, encryptedPassword,req.body.nombre,req.body.telefono])
+        `,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono])
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send({ insertId: data.insertId });
