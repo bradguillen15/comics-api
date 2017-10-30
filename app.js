@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const Bcrypt = require('bcrypt');
 const { server } = require('./config/credentials');
 
 const db = require('./config/db');
@@ -8,6 +10,51 @@ const app = () => {
   const expressApp = express();
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
+
+
+
+//addUsuario
+
+
+  expressApp.post('/addUsuario', (req, res) => {
+
+ console.log(req.body);
+    var password = req.body.pass;
+    var salt = Bcrypt.genSaltSync();
+    console.log(password+'-'+ salt);
+    var encryptedPassword = Bcrypt.hashSync(password, salt);
+
+
+    db(`INSERT INTO usuarios (email, pass, nombre, telefono) 
+        VALUES (?, ?, ?, ?)
+        `,[req.body.email, encryptedPassword,req.body.nombre,req.body.telefono])
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ insertId: data.insertId });
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+  expressApp.post('/recuperar', (req, res) => {
+
+    
+    var nueva = Math.random().toString(36).substr(2, 8);
+    var password = nueva;
+    var salt = Bcrypt.genSaltSync();
+    var encryptedPassword = Bcrypt.hashSync(password, salt);
+
+
+    db(`UPDATE usuarios SET pass = ? WHERE email=?
+        `,[encryptedPassword, req.body.email])
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ data: data });
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
 
   // PublicationRoute
   expressApp.post('/getPublicaciones', (req, res) => {
