@@ -23,11 +23,12 @@ const app = () => {
    // var salt = Bcrypt.genSaltSync();
    // console.log(password+'-'+ salt);
     //var encryptedPassword = Bcrypt.hashSync(password, salt);
+    //,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono]
 
 
     db(`INSERT INTO usuarios (email, pass, nombre, telefono) 
-        VALUES (?, ?, ?, ?)
-        `,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono])
+        VALUES (${req.params.email}, ${req.params.pass}, ${req.params.nombre}, ${req.params.telefono})
+        `)
       .then((data) => {
         console.log(data);
         if (!data) {res.send().status(500);}
