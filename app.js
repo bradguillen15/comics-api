@@ -129,6 +129,16 @@ const app = () => {
       }).catch(err => res.send(err).status(500));
   });
 
+  expressApp.post('/addPublicacion', (req, res) => {
+    db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
+        VALUES ('${req.body.contenido || ''}', ${req.params.user1Id}, ${req.params.user2Id})
+        `)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ insertId: data.insertId });
+      }).catch(err => res.send(err).status(500));
+  });
+
   expressApp.get('/', (req, res) =>
     res.send('Api is running in port 3000'));
 
