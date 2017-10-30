@@ -37,6 +37,20 @@ const app = () => {
   });
 
 
+
+  expressApp.post('/doLogin', (req, res) => {
+    db(`SELECT  idUsuario
+        FROM usuarios 
+        WHERE email = ? AND pass = ?
+    `,[req.body.email, req.body.pass]).then((data) => {
+      if (!data) res.send().status(500);
+      return res.send({
+        idUsuario: data[0].idUsuario,
+        });
+    }).catch(err => res.send(err).status(500));
+  });
+
+
   expressApp.post('/recuperar', (req, res) => {
 
     
