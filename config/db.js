@@ -22,6 +22,11 @@ const db = (query,parametros) => {
         if (!error) {
           resolve(results);
         }
+        else{
+          console.log(error);
+          resolve(error);
+
+        }
       });
     });
   } finally {
