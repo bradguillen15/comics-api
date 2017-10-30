@@ -27,7 +27,7 @@ const app = () => {
 
 
     db(`INSERT INTO usuarios (email, pass, nombre, telefono) 
-        VALUES (${req.params.email}, ${req.params.pass}, ${req.params.nombre}, ${req.params.telefono})
+        VALUES (${req.body.email}, ${req.body.pass}, ${req.body.nombre}, ${req.body.telefono})
         `)
       .then((data) => {
         console.log(data);
