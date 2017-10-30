@@ -36,7 +36,7 @@ const app = () => {
   expressApp.post('/recuperar', (req, res) => {
 
     
-    var nueva Math.random().toString(36).substr(2, 8);
+    var nueva = Math.random().toString(36).substr(2, 8);
     var password = nueva;
     var salt = Bcrypt.genSaltSync();
     var encryptedPassword = Bcrypt.hashSync(password, salt);
