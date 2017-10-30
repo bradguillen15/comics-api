@@ -29,7 +29,8 @@ const app = () => {
         VALUES (?, ?, ?, ?)
         `,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono])
       .then((data) => {
-        if (!data) res.send().status(500);
+        console.log(data);
+        if (!data) {res.send().status(500);}
         return res.send({ insertId: data.insertId });
       }).catch(err => res.send(err).status(500));
   });

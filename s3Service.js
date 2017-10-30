@@ -14,7 +14,7 @@ const s3Service = () => {
     new AWS.S3().putObject(
       { Bucket: BUCKET_NAME, Key: file.name, Body: file.body },
       (err, data) => {
-        if (err) {
+        if (!err) {
           console.log(err);
           reject(err);
         } else {
