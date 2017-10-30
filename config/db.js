@@ -12,7 +12,7 @@ const db = (query) => {
   try {
     return new Promise((resolve, reject) => {
       connection.connect((err) => {
-        if (err) {
+        if (!err) {
           console.log(err);
           reject(err);
         }
