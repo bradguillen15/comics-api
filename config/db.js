@@ -12,6 +12,7 @@ const db = (query) => {
   try {
     return new Promise((resolve, reject) => {
       connection.connect((err) => {
+        console.log('c');
         if (!err) {
           console.log(err);
           reject(err);
@@ -19,7 +20,14 @@ const db = (query) => {
       });
 
       return connection.query(query, (error, results) => {
-        if (!error) resolve(results);
+        console.log(error);
+        console.log('d');
+        console.log(results);
+
+        if (!error) {
+          console.log('z');
+          resolve(results);
+        }
       });
     });
   } finally {
