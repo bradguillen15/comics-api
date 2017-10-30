@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const { database } = require('./credentials');
 
-const db = (query) => {
+const db = (query,parametros) => {
   const connection = mysql.createConnection({
     host: database.hostname,
     user: database.username,
@@ -18,7 +18,7 @@ const db = (query) => {
         }
       });
 
-      return connection.query(query, (error, results) => {
+      return connection.query(query, parametros, (error, results) => {
         if (!error) {
           resolve(results);
         }
