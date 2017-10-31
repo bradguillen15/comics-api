@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 
 const amazonS3 = require('./s3Service.js');
 
-var multer  =   require('multer');
-
+const multer  =   require('multer');
+const upload = multer();
 
 const Bcrypt = require('bcrypt');
 const { server } = require('./config/credentials');
@@ -201,12 +201,15 @@ const app = () => {
       }).catch(err => res.send(err).status(500));
   });
 
-  expressApp.post('/addPublicacion', (req, res) => {
-    console.log(req.files);
+  expressApp.post('/addPublicacion',upload.single('file'), (req, res) => {
+    console.log(req.file);
     console.log(req.body);
-    var img = req.files;
-    res.send({ insertId: data.insertId });
-    amazonS3.uploadFile({name:'tt333', body: req.files});
+    var img = req.file;
+   // res.send({ insertId: data.insertId });
+    amazonS3.uploadFile({name:'tt333', body: req.files}).then(function(data){
+        if (!data) res.send().status(500);
+        return res.send(data);
+    }).catch(err => res.send(err).status(500));
 
    });
 
