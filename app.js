@@ -201,7 +201,7 @@ const app = () => {
       }).catch(err => res.send(err).status(500));
   });
 
-  expressApp.post('/addPublicacion',upload.single('file'), (req, res) => {
+  expressApp.post('/cambiarFotoPerfil',upload.single('file'), (req, res) => {
    
 //console.log(req.body.idUsuario);
 console.log('**************');
@@ -217,6 +217,37 @@ var nombreV = 'user'+req.body.idUsuario;
     }).catch(err => res.send(err).status(500));
 
    });
+
+    expressApp.post('/publicarComic',upload.single('file'), (req, res) => {
+   
+    
+
+       db(`INSERT INTO publicaciones (idUsuario, titulo, descripcion, precio, estadoComic, fechaPublicacion) 
+        VALUES (?, ?, ?, ?, ?, ?)
+        `,[req.body.idUsuario, req.body.nombre, req.body.descripcion, req.body.precio, req.body.estado, req.estado.fechaPublicacion])
+      .then((data) => {
+        if (!data) res.send().status(500);
+
+        var nombreV = 'publicacion'+data.insertId;
+        
+        amazonS3.uploadFile({name: nombreV, body: req.file.buffer}).then(function(data){
+        if (!data) res.send().status(500);
+        return res.send({ insertId: data.insertId });
+        }).catch(err => res.send(err).status(500));
+
+       // return res.send({ insertId: data.insertId });
+      }).catch(err => res.send(err).status(500));
+
+
+    //console.log(req.body);
+    //var img = req.file;
+   // res.send({ insertId: data.insertId });
+
+
+
+   });
+
+
 
   expressApp.get('/', (req, res) =>
     res.send('Api is running in port 3000'));
