@@ -172,15 +172,17 @@ const app = () => {
   });
 
   expressApp.post('/getChat/:user1Id/:user2Id', (req, res) => {
+     Promise.all([
     db(`SELECT * 
         FROM mensajes 
         WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
         AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id}) 
         ORDER BY idMensaje ASC LIMIT 30 
-        `)
+        `), db(`UPDATE mensajes SET estadoMensaje=2 WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
+        AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id})`)])
       .then((data) => {
         if (!data) res.send().status(500);
-        return res.send(data);
+        return res.send(data[0]);
       }).catch(err => res.send(err).status(500));
   });
 
