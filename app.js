@@ -1,6 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const amazonS3 = require('./s3Service.js');
+
+var multer  =   require('multer');
+
+
 const Bcrypt = require('bcrypt');
 const { server } = require('./config/credentials');
 
@@ -197,14 +202,12 @@ const app = () => {
   });
 
   expressApp.post('/addPublicacion', (req, res) => {
-    db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
-        VALUES ('${req.body.contenido || ''}', ${req.params.user1Id}, ${req.params.user2Id})
-        `)
-      .then((data) => {
-        if (!data) res.send().status(500);
-        return res.send({ insertId: data.insertId });
-      }).catch(err => res.send(err).status(500));
-  });
+  
+    var img = req.files;
+    res.send({ insertId: data.insertId });
+    amazonS3.uploadFile({name:, body: });
+
+   });
 
   expressApp.get('/', (req, res) =>
     res.send('Api is running in port 3000'));
