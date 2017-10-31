@@ -202,11 +202,11 @@ const app = () => {
   });
 
   expressApp.post('/addPublicacion',upload.single('file'), (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
+   // console.log(req.file);
+    //console.log(req.body);
     var img = req.file;
    // res.send({ insertId: data.insertId });
-    amazonS3.uploadFile({name:'tt333', body: req.files}).then(function(data){
+    amazonS3.uploadFile({name:'tt333', body: req.file}).then(function(data){
         if (!data) res.send().status(500);
         return res.send(data);
     }).catch(err => res.send(err).status(500));
