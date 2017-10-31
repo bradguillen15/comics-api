@@ -185,8 +185,8 @@ const app = () => {
 
   expressApp.post('/addMensaje/:user1Id/:user2Id', (req, res) => {
     db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
-        VALUES ('${req.body.contenido || ''}', ${req.params.user1Id}, ${req.params.user2Id})
-        `)
+        VALUES (?, ?, ?)
+        `,[req.body.contenido, req.body.idEmisor, req.body.idReceptor])
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send({ insertId: data.insertId });
