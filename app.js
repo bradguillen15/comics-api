@@ -149,6 +149,7 @@ const app = () => {
           idPublicacion: p.idPublicacion,
           estadoPublicacion: p.estadoPublicacion,
           precio: p.precio,
+          titulo: p.titulo,
           urlImagen: p.urlImagen,
         }))
       });
