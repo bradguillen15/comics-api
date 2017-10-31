@@ -220,7 +220,7 @@ var nombreV = 'user'+req.body.idUsuario;
 
 
   expressApp.post('/publicarComic', (req, res) => {
-    db(`INSERT INTO publicaciones (idUsuario, titulo, descripcion, precio, estadoComic, fechaPublicacion) 
+    db(`INSERT INTO publicaciones (idUsuario, titulo, descripcion, precio, estadoComic, fechaEdicion) 
         VALUES (?, ?, ?, ?, ?, ?)
         `,[req.body.idUsuario, req.body.nombre, req.body.descripcion, req.body.precio, req.body.estado, req.body.fechaPublicacion])
       .then((data) => {
