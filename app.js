@@ -229,10 +229,33 @@ var nombreV = 'user'+req.body.idUsuario;
       }).catch(err => res.send(err).status(500));
   });
 
+
+  expressApp.post('/publicarComicc',upload.single('file'), (req, res) => {
+    
+    db(`INSERT INTO publicaciones (idUsuario, titulo, descripcion, precio, estadoComic, fechaEdicion) 
+        VALUES (?, ?, ?, ?, ?, ?)
+        `,[req.body.idUsuario, req.body.nombre, req.body.descripcion, req.body.precio, req.body.estado, req.body.fechaPublicacion])
+      .then((data) => {
+        if (!data) res.send().status(500);
+
+
+        var pw = { insertId: data.insertId };
+
+        amazonS3.uploadFile({name: 'publicaciones'+pw, body: req.file.buffer}).then(function(data){
+        if (!data) res.send().status(500);
+        return res.send(pw);
+        }).catch(err => res.send(err).status(500));
+
+
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+
  expressApp.post('/cambiarFotoPublicacion',upload.single('file'), (req, res) => {
    
 //console.log(req.body.idUsuario);
-console.log('**************');
+console.log('******cambiarfotoPu********');
     //console.log(req.file);
 var nombreV = 'publicacion'+req.body.idPublicacion;
     //console.log(req.body);
