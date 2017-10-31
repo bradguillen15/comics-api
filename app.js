@@ -158,7 +158,7 @@ const app = () => {
 
   // Chat Route
   expressApp.post('/getChats/:userId', (req, res) => {
-    db(`SELECT u.nombre, u.imagenUrl,
+    db(`SELECT u.idUsuario, u.nombre, u.imagenUrl,
         (SELECT COUNT(c.idMensaje) FROM mensajes as c 
         WHERE c.estadoMensaje =1 AND ((c.idEmisor = ${req.params.userId} || c.idReceptor = ${req.params.userId} ) && (c.idEmisor = u.idUsuario || c.idReceptor = u.idUsuario )) ) as sinLeer, 
         (SELECT n.fechaCreacion FROM mensajes as n WHERE ((n.idEmisor = ${req.params.userId} || n.idReceptor = ${req.params.userId} ) && (n.idEmisor = u.idUsuario || n.idReceptor = u.idUsuario )) ORDER BY n.fechaCreacion DESC LIMIT 1 ) as ultimoMensaje 
