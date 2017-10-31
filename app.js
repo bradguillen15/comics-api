@@ -183,7 +183,7 @@ const app = () => {
       }).catch(err => res.send(err).status(500));
   });
 
-  expressApp.post('/addMensaje/:user1Id/:user2Id', (req, res) => {
+  expressApp.post('/addMensaje', (req, res) => {
     db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
         VALUES (?, ?, ?)
         `,[req.body.contenido, req.body.idEmisor, req.body.idReceptor])
