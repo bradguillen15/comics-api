@@ -12,7 +12,7 @@ AWS.config.update({
 const s3Service = () => {
   const uploadFile = file => new Promise((resolve, reject) =>
     new AWS.S3().putObject(
-      { Bucket: BUCKET_NAME, Key: file.name, Body: file.body },
+      { Bucket: BUCKET_NAME, Key: file.name, Body: file.body, ACL: 'public-read' },
       (err, data) => {
         if (!err) {
           console.log(err);
