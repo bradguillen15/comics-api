@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const { accessKeyId, secretAccessKey } = require('./config/awsCredentials');
+const { accessKeyId, secretAccessKey } = require('./config/awsCredentials.js');
 
 const BUCKET_NAME = 'ultradoujinshi';
 
