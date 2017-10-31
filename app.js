@@ -123,12 +123,12 @@ const app = () => {
     }).catch(err => res.send(err).status(500));
   });
 
-  expressApp.post('/addPublicacion', (req, res) => {
+/*  expressApp.post('/addPublicacion', (req, res) => {
     db('').then((data) => {
       if (!data) res.send().status(500);
       return res.send(data);
     }).catch(err => res.send(err).status(500));
-  });
+  });*/
 
   // User Route
   expressApp.post('/getPerfil/:userId', (req, res) => {
