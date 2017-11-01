@@ -41,6 +41,18 @@ const app = () => {
       }).catch(err => res.send(err).status(500));
   });
 
+ expressApp.post('/addUserFb', (req, res) => {
+
+    db(`INSERT INTO usuarios (email, nombre, fbId, imagenUrl) 
+        VALUES (?,?,?,?)
+        `,[req.body.email, req.body.name, req.body.userID, req.body.picture])
+      .then((data) => {
+        console.log(data);
+        if (!data) {res.send().status(500);}
+        return res.send({ insertId: data.insertId });
+      }).catch(err => res.send(err).status(500));
+  });
+
 
 
   expressApp.post('/doLogin', (req, res) => {
@@ -48,6 +60,18 @@ const app = () => {
         FROM usuarios 
         WHERE email = ? AND pass = ?
     `,[req.body.email, req.body.pass]).then((data) => {
+      if (!data) res.send().status(500);
+      return res.send({
+        idUsuario: data[0].idUsuario,
+        });
+    }).catch(err => res.send(err).status(500));
+  });
+
+    expressApp.post('/verificarFBLog', (req, res) => {
+    db(`SELECT  idUsuario
+        FROM usuarios 
+        WHERE fbId = ? 
+    `,[req.body.id]).then((data) => {
       if (!data) res.send().status(500);
       return res.send({
         idUsuario: data[0].idUsuario,
