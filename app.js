@@ -157,7 +157,7 @@ const app = () => {
   // User Route
   expressApp.post('/getPerfil/:userId', (req, res) => {
     Promise.all([
-      db(`SELECT u.nombre, u.idUsuario, u.fechaCreacion, u.email, 
+      db(`SELECT u.nombre, u.idUsuario, u.fechaCreacion, u.email, u.imagenUrl, 
           (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario AND p.estadoPublicacion = 2 ) as vendidos,  
           (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario ) as publicados 
           FROM usuarios as u 
@@ -172,6 +172,7 @@ const app = () => {
         idUsuario: data[0][0].idUsuario,
         nombre: data[0][0].nombre,
         fechaCreacion: data[0][0].fechaCreacion,
+        imagenUrl: data[0][0].imagenUrl,
         vendidos: data[0][0].vendidos,
         publicados: data[0][0].publicados,
         publicaciones: data[1].map(p => ({
