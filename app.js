@@ -75,8 +75,10 @@ console.log(req.body);
       console.log(data);
       console.log('dddddd333');
       console.log(data[0]);
-      
-      if (!data) res.send().status(500);
+
+      if (!data) res.send({
+        idUsuario: 0,
+        }).status(500);
       return res.send({
         idUsuario: data[0].idUsuario,
         });
