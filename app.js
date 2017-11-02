@@ -78,7 +78,7 @@ console.log(req.body);
 
       if (!data) res.send({
         idUsuario: 0,
-        }).status(500);
+        });
       return res.send({
         idUsuario: data[0].idUsuario,
         });
