@@ -77,10 +77,10 @@ console.log(req.body);
       console.log(data[0]);
 
       if (!data) res.send({
-        idUsuario: 0,
+        idUsuario: 0
         });
       return res.send({
-        idUsuario: data[0].idUsuario,
+        idUsuario: data[0].idUsuario
         });
     }).catch(err => res.send(err).status(500));
   });
