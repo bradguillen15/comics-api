@@ -42,7 +42,7 @@ const app = () => {
   });
 
  expressApp.post('/addUserFb', (req, res) => {
-
+console.log(req.body);
     db(`INSERT INTO usuarios (email, nombre, fbId, imagenUrl) 
         VALUES (?,?,?,?)
         `,[req.body.email, req.body.name, req.body.userID, req.body.picture])
@@ -72,6 +72,10 @@ const app = () => {
         FROM usuarios 
         WHERE fbId = ? 
     `,[req.body.id]).then((data) => {
+      console.log(data);
+      console.log('dddddd333');
+      console.log(data[0]);
+      
       if (!data) res.send().status(500);
       return res.send({
         idUsuario: data[0].idUsuario,
