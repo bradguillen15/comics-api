@@ -205,6 +205,19 @@ console.log(req.body);
       }).catch(err => res.send(err).status(500));
   });
 
+  expressApp.post('/getMisPublicaciones/:userId', (req, res) => {
+    db(`SELECT * 
+        FROM publicaciones  
+        WHERE idUsuario = ${req.params.userId} AND estadoPublicacion = 1`)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send(data);
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+
+
   expressApp.post('/getChat/:user1Id/:user2Id', (req, res) => {
      Promise.all([
     db(`SELECT * 
