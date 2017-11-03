@@ -190,6 +190,25 @@ console.log(req.body);
     }).catch(err => res.send(err).status(500));
   });
 
+
+
+ // User Route
+  expressApp.post('/calificarPublicacion', (req, res) => {
+    Promise.all([
+      db(`UPDATE publicaciones set estadoPublicacion=2 WHERE idPublicacion = ${req.body.idPublicacion}`),
+      db(`INSERT INTO calificaciones (idPublicacion, idUsuarioRecibe, rating) 
+        VALUES ( ${req.body.idPublicacion}, ${req.body.idUsuario}, ${req.body.calificacion})
+      `)
+    ]).then((data) => {
+      if (!data) res.send().status(500);
+      return res.send(data);
+    }).catch(err => res.send(err).status(500));
+  });
+
+  
+
+
+
   // Chat Route
   expressApp.post('/getChats/:userId', (req, res) => {
     db(`SELECT u.idUsuario, u.nombre, u.imagenUrl,
