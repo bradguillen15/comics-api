@@ -248,8 +248,8 @@ console.log(req.body);
         WHERE (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
         AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id}) 
         ORDER BY idMensaje ASC LIMIT 30 
-        `), db(`UPDATE mensajes SET estadoMensaje=2 WHERE estadoMensaje = 1 AND (idEmisor = ${req.params.user1Id} OR idReceptor = ${req.params.user1Id}) 
-        AND (idEmisor = ${req.params.user2Id} OR idReceptor = ${req.params.user2Id})`)])
+        `), db(`UPDATE mensajes SET estadoMensaje=2 WHERE estadoMensaje = 1 AND  idReceptor = ${req.params.user2Id}  
+        AND idEmisor = ${req.params.user1Id}`)])
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send(data[0]);
