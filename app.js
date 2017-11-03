@@ -231,7 +231,15 @@ console.log(req.body);
   expressApp.post('/getMisPublicaciones/:userId', (req, res) => {
     db(`SELECT * 
         FROM publicaciones  
-        WHERE idUsuario = ${req.params.userId} AND estadoPublicacion = 1`)
+        WHERE idUsuario = ${req.params.userId} AND (estadoPublicacion = 1 OR estadoPublicacion = 3)`)
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send(data);
+      }).catch(err => res.send(err).status(500));
+  });
+
+  expressApp.post('/cambiarEstadoPubli', (req, res) => {
+    db(`UPDATE publicaciones SET estadoPublicacion = ${req.body.estado} WHERE idPublicacion = ${req.body.idPublicacion}`)
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send(data);
