@@ -163,7 +163,8 @@ console.log(req.body);
     Promise.all([
       db(`SELECT u.nombre, u.idUsuario, u.fechaCreacion, u.email, u.imagenUrl, 
           (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario AND p.estadoPublicacion = 2 ) as vendidos,  
-          (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario ) as publicados 
+          (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario ) as publicados,
+          (SELECT AVG(rating) FROM calificaciones WHERE idUsuarioRecibe = ${req.params.userId}) as calificacion   
           FROM usuarios as u 
           WHERE idUsuario = ${req.params.userId}`),
       db(`SELECT * 
