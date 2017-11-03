@@ -180,8 +180,8 @@ console.log(req.body);
         imagenUrl: data[0][0].imagenUrl,
         vendidos: data[0][0].vendidos,
         publicados: data[0][0].publicados,
-        publicados: data[0][0].calificacion,
-        calificacion: data[1].map(p => ({
+        calificacion: data[0][0].calificacion,
+        publicaciones: data[1].map(p => ({
           idPublicacion: p.idPublicacion,
           estadoPublicacion: p.estadoPublicacion,
           precio: p.precio,
