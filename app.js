@@ -165,7 +165,7 @@ console.log(req.body);
           (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario AND p.estadoPublicacion = 2 ) as vendidos,  
           (SELECT COUNT(p.idPublicacion) FROM publicaciones as p WHERE p.idUsuario = u.idUsuario ) as publicados,
           (SELECT AVG(rating) FROM calificaciones WHERE idUsuarioRecibe = ${req.params.userId}) as calificacion,
-          (SELECT COUNT(rating) FROM calificaciones WHERE idUsuarioRecibe = ${req.params.userId}) as vendidos   
+          (SELECT COUNT(rating) FROM calificaciones WHERE idUsuarioRecibe = ${req.params.userId}) as comprados   
           FROM usuarios as u 
           WHERE idUsuario = ${req.params.userId}`),
       db(`SELECT * 
@@ -182,7 +182,7 @@ console.log(req.body);
         vendidos: data[0][0].vendidos,
         publicados: data[0][0].publicados,
         calificacion: data[0][0].calificacion,
-        vendidos: data[0][0].vendidos,
+        comprados: data[0][0].comprados,
         publicaciones: data[1].map(p => ({
           idPublicacion: p.idPublicacion,
           estadoPublicacion: p.estadoPublicacion,
