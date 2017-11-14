@@ -274,6 +274,19 @@ console.log(req.body);
       }).catch(err => res.send(err).status(500));
   });
 
+
+  expressApp.post('/addPush', (req, res) => {
+    db(`INSERT INTO pushHandler (idUsuario, so, pushKey, deviceID) 
+        VALUES (?, ?, ?, ?)
+        `,[req.body.user, req.body.device, req.body.pushK, req.body.deviceId])
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ insertId: data.insertId });
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+
   expressApp.post('/cambiarFotoPerfil',upload.single('file'), (req, res) => {
    
 //console.log(req.body.idUsuario);
