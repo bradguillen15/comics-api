@@ -305,9 +305,10 @@ console.log(req.body);
       `)
     ]).then((data) => {
       var registrationTokens = [];
-      data[1].map(p => (
-        registrationTokens.push(p.pushKey);
-        ));
+        data[1].forEach(function(element) {
+          registrationTokens.push(element.pushKey);
+        });
+
 
         if(data[1].length > 0){
           var message = new gcm.Message({
