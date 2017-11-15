@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const gcm = require('node-gcm');
 const amazonS3 = require('./s3Service.js');
 
 const multer  =   require('multer');
@@ -10,6 +10,9 @@ const Bcrypt = require('bcrypt');
 const { server } = require('./config/credentials');
 
 const db = require('./config/db');
+
+var sender = new gcm.Sender('AIzaSyCokKFw_GhhNPBB4E2P4U069ynaGgvt7Jw');
+
 
 const app = () => {
   const expressApp = express();
