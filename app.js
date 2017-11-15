@@ -70,6 +70,18 @@ console.log(req.body);
     }).catch(err => res.send(err).status(500));
   });
 
+
+  expressApp.post('/cerrarSesion', (req, res) => {
+    db(`UPDATE pushHandler SET logout = CURRENT_TIMESTAMP WHERE deviceID = ? AND idUsuario = ? AND logout IS NULL
+        `,[req.body.user, req.body.device, req.body.user])
+      .then((data) => {
+        if (!data) res.send().status(500);
+        return res.send({ data: data });
+      }).catch(err => res.send(err).status(500));
+  });
+
+
+
     expressApp.post('/verificarFBLog', (req, res) => {
     db(`SELECT  idUsuario
         FROM usuarios 
