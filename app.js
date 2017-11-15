@@ -297,8 +297,8 @@ console.log(req.body);
 
     Promise.all([
       db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
-        VALUES (${req.body.contenido}, ${req.body.idEmisor}, ${req.body.idReceptor})
-        `),
+        VALUES (?, ?, ?)
+        `,[req.body.contenido, req.body.idEmisor, req.body.idReceptor]),
       db(`SELECT pushKey
         FROM pushHandler  
         WHERE idUsuario = ${req.body.idReceptor} AND logout IS NULL 
