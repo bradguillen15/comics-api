@@ -264,6 +264,7 @@ console.log(req.body);
       }).catch(err => res.send(err).status(500));
   });
 
+
   expressApp.post('/addMensaje', (req, res) => {
     db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
         VALUES (?, ?, ?)
@@ -283,6 +284,60 @@ console.log(req.body);
         if (!data) res.send().status(500);
         return res.send({ insertId: data.insertId });
       }).catch(err => res.send(err).status(500));
+  });
+
+
+  expressApp.post('/addMensajePush', (req, res) => {
+
+    var id=req.body.idReceptor;
+    var contenido=req.body.contenido;
+
+    Promise.all([
+      db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
+        VALUES (${req.body.contenido}, ${req.body.idEmisor}, ${req.body.idReceptor})
+        `),
+      db(`SELECT pushKey
+        FROM pushHandler  
+        WHERE idUsuario = ${req.body.idReceptor} AND logout IS NULL 
+      `)
+    ]).then((data) => {
+      var registrationTokens = [];
+      data[1].map(p => (
+        registrationTokens.push(p.pushKey);
+        ));
+
+        if(data[1].length > 0){
+          var message = new gcm.Message({
+              collapseKey: 'demo',
+              priority: 'high',
+              contentAvailable: true,
+              delayWhileIdle: true,
+              timeToLive: 3,
+              restrictedPackageName: "somePackageName",
+              dryRun: true,
+              data: {
+                  key1: 'message1',
+                  key2: 'message2'
+              },
+              notification: {
+                  title: "Mensaje nuevo",
+                  icon: "ic_launcher",
+                  body: contenido.substring(0,14)+"...";
+              }
+          });
+
+          sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function(err, response) {
+                  if(err) console.error(err);
+                  else    console.log(response);
+                });
+
+        }
+
+      if (!data) res.send().status(500);
+      return res.send({ insertId: data[0].insertId });
+
+    }).catch(err => res.send(err).status(500));
+
   });
 
 
