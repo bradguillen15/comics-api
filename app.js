@@ -326,7 +326,7 @@ console.log(req.body);
               notification: {
                   title: "Mensaje nuevo",
                   icon: "ic_launcher",
-                  body: contenido.substring(0,14)+"...";
+                  body: contenido.substring(0,14)+"..."
               }
           });
 
