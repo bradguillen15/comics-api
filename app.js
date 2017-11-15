@@ -304,6 +304,10 @@ console.log(req.body);
         WHERE idUsuario = ${req.body.idReceptor} AND logout IS NULL 
       `)
     ]).then((data) => {
+
+       console.log(data[1]);
+
+       
       var registrationTokens = [];
         data[1].forEach(function(element) {
           console.log(element.pushKey);
