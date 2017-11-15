@@ -307,7 +307,7 @@ console.log(req.body);
 
        console.log(data[1]);
 
-       
+
       var registrationTokens = [];
         data[1].forEach(function(element) {
           console.log(element.pushKey);
@@ -318,17 +318,6 @@ console.log(req.body);
         if(registrationTokens.length > 0){
           console.log('d');
           var message = new gcm.Message({
-              collapseKey: 'demo',
-              priority: 'high',
-              contentAvailable: true,
-              delayWhileIdle: true,
-              timeToLive: 3,
-              restrictedPackageName: "somePackageName",
-              dryRun: true,
-              data: {
-                  key1: 'message1',
-                  key2: 'message2'
-              },
               notification: {
                   title: "Mensaje nuevo",
                   icon: "ic_launcher",
