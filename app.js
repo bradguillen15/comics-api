@@ -11,7 +11,7 @@ const { server } = require('./config/credentials');
 
 const db = require('./config/db');
 
-var sender = new gcm.Sender('AIzaSyCokKFw_GhhNPBB4E2P4U069ynaGgvt7Jw');
+var sender = new gcm.Sender('AIzaSyB9NRBjhypcU9QZursZiiJuGJMulaCjEmA');
 
 
 const app = () => {
