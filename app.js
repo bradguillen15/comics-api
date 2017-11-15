@@ -306,11 +306,13 @@ console.log(req.body);
     ]).then((data) => {
       var registrationTokens = [];
         data[1].forEach(function(element) {
+          console.log(element.pushKey);
           registrationTokens.push(element.pushKey);
         });
 
 
-        if(data[1].length > 0){
+        if(registrationTokens.length > 0){
+          console.log('d');
           var message = new gcm.Message({
               collapseKey: 'demo',
               priority: 'high',
