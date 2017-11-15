@@ -73,7 +73,7 @@ console.log(req.body);
 
   expressApp.post('/cerrarSesion', (req, res) => {
     db(`UPDATE pushHandler SET logout = CURRENT_TIMESTAMP WHERE deviceID = ? AND idUsuario = ? AND logout IS NULL
-        `,[req.body.user, req.body.device, req.body.user])
+        `,[req.body.device, req.body.user])
       .then((data) => {
         if (!data) res.send().status(500);
         return res.send({ data: data });
