@@ -118,7 +118,28 @@ console.log(req.body);
 
 
 
-
+  expressApp.post('/buscar', (req, res) => {
+    db(`SELECT *, 
+        (SELECT i.urlImagen 
+        FROM imagenesPublicaciones as i 
+        WHERE i.idPublicacion = p.idPublicacion 
+        ORDER BY i.fechaCreacion ASC LIMIT 1) as imagenUrl 
+        FROM publicaciones as p 
+        WHERE descripcion LIKE '%${req.body.palabra}%'
+   OR titulo LIKE '%${req.body.palabra}%' AND estadoPublicacion = 1 ORDER BY p.idPublicacion DESC 
+    `).then((data) => {
+      if (!data) res.send().status(500);
+      return res.send(data.map(d => ({
+        idPublicacion: d.idPublicacion,
+        idUsuario: d.idUsuario,
+        titulo: d.titulo,
+       // descripcion: !d.descripcion || d.descripcion.slice(150),
+       descripcion: d.descripcion,
+        precio: d.precio,
+        urlImagen: d.urlImagen
+      })));
+    }).catch(err => res.send(err).status(500));
+  });
 
   // PublicationRoute
   expressApp.post('/getPublicaciones', (req, res) => {
