@@ -125,8 +125,8 @@ console.log(req.body);
         WHERE i.idPublicacion = p.idPublicacion 
         ORDER BY i.fechaCreacion ASC LIMIT 1) as imagenUrl 
         FROM publicaciones as p 
-        WHERE descripcion LIKE '%${req.body.palabra}%'
-   OR titulo LIKE '%${req.body.palabra}%' AND estadoPublicacion = 1 ORDER BY p.idPublicacion DESC 
+        WHERE (descripcion LIKE '%${req.body.palabra}%'
+           OR titulo LIKE '%${req.body.palabra}%') AND estadoPublicacion = 1 ORDER BY p.idPublicacion DESC 
     `).then((data) => {
       if (!data) res.send().status(500);
       return res.send(data.map(d => ({
