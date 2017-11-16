@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const gcm = require('node-gcm');
 const amazonS3 = require('./s3Service.js');
+const mail = require("nodemailer").mail;
 
 const multer  =   require('multer');
 const upload = multer();
@@ -103,15 +104,30 @@ console.log(req.body);
 
     
     var nueva = Math.random().toString(36).substr(2, 8);
-    var password = nueva;
-    var salt = Bcrypt.genSaltSync();
-    var encryptedPassword = Bcrypt.hashSync(password, salt);
+
+
 
 
     db(`UPDATE usuarios SET pass = ? WHERE email=?
-        `,[encryptedPassword, req.body.email])
+        `,[nueva, req.body.email])
       .then((data) => {
-        if (!data) res.send().status(500);
+
+
+        if (!data) {res.send().status(500);}
+        else{
+
+          var stringEmail =  "<b>La clave de su cuenta en el app Ultra Doujinshi ha sido restablecida, su clave nueva es: "+nueva+"</b>";
+          var mail = require("nodemailer").mail;
+
+          mail({
+            from: "Ultra Doujinshi <ultradoujinshi@gmail.com>", // sender address
+            to: req.body.email, // list of receivers
+            subject: "Recuperacion clave", // Subject line
+            text: stringEmail
+          });
+        }
+
+
         return res.send({ data: data });
       }).catch(err => res.send(err).status(500));
   });
