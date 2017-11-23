@@ -171,7 +171,7 @@ function deleteUser(event) {
 
         // If they did, do our delete
         $.ajax({
-            type: 'DELETE',
+            type: 'GET',
             url: '/deleteuser/' + $(this).attr('rel')
         }).done(function( response ) {
 
