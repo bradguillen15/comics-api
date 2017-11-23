@@ -22,12 +22,14 @@ a {
 #publisList {
 	margin:0 0 50px 0;
 	    text-align: center;
+	        min-height: 500px;
 }
 
 
 #userList {
 	margin:0 0 50px 0;
 	text-align: center;
+	    min-height: 500px;
 }
 
 .estado1{background-color: lightgreen;}
