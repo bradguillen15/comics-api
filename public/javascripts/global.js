@@ -106,7 +106,7 @@ function populateTable2() {
         $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td>' + this.titulo + '</td>';
-            tableContent += '<td>' + ((this.estadoPublicacion == '1') ? 'Publicado'  : (this.estadoPublicacion == '2') ? 'Vendido'  : 'Borrado') + '</td>';
+            tableContent += '<td class="estado'+this.estadoPublicacion+'">' + ((this.estadoPublicacion == '1') ? 'Publicado'  : (this.estadoPublicacion == '2') ? 'Vendido'  :  (this.estadoPublicacion == '3') ? 'Reservado'  : 'Borrado') + '</td>';
             tableContent += '<td>' + this.idUsuario + '</td>';
              tableContent += '<td>' + this.fechaCreacion + '</td>';
             tableContent += '<td><a href="#" class="linkdeletepubli" rel="' + this.idPublicacion + '">Borrar</a></td>';
