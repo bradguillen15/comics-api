@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     // Populate the user table on initial page load
     populateTable();
-
+populateTable2();
     // Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
 
