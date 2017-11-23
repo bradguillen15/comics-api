@@ -66,9 +66,9 @@ function populateTable() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.nombre + '" title="Show Details">' + this.username + '</a></td>';
+            tableContent += '<td>' + this.nombre + '</td>';
             tableContent += '<td>' + this.email + '</td>';
-            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.idUsuario + '">Borrar</a></td>';
             tableContent += '</tr>';
         });
 
@@ -164,7 +164,7 @@ function deleteUser(event) {
     event.preventDefault();
 
     // Pop up a confirmation dialog
-    var confirmation = confirm('Are you sure you want to delete this user?');
+    var confirmation = confirm('Seguro que deseas eliminar este usuario?');
 
     // Check and make sure the user confirmed
     if (confirmation === true) {
@@ -172,7 +172,7 @@ function deleteUser(event) {
         // If they did, do our delete
         $.ajax({
             type: 'DELETE',
-            url: '/users/deleteuser/' + $(this).attr('rel')
+            url: '/deleteuser/' + $(this).attr('rel')
         }).done(function( response ) {
 
             // Check for a successful (blank) response
