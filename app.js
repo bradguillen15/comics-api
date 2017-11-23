@@ -75,7 +75,7 @@ console.log(req.body);
 
 
   expressApp.get('/consola', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Ultra Doujinshi' });
   });
 
 
@@ -377,7 +377,21 @@ expressApp.get('/getPublisTodas', function(req, res) {
 
   });
 
+  expressApp.get('/deletepubli/:idPublicacion', function(req, res) {
 
+
+     db(`DELETE FROM publicaciones WHERE idPublicacion = ${req.params.idPublicacion}
+        `)
+      .then((data) => {
+
+        if (!data) res.send({ msg:'error: '});
+        return res.send({ msg: '' });
+
+      }).catch(err => res.send(err).status(500));
+
+
+
+  });
 
 
   expressApp.post('/addMensaje', (req, res) => {

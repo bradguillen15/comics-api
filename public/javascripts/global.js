@@ -17,6 +17,11 @@ populateTable2();
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 
 
+    // Delete Publi link click
+    $('#publisList table tbody').on('click', 'td a.linkdeletepubli', deletePubli);
+
+
+
     
 
 
@@ -101,10 +106,10 @@ function populateTable2() {
         $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td>' + this.titulo + '</td>';
-            tableContent += '<td>' + this.estadoPublicacion + '</td>';
+            tableContent += '<td>' + ((this.estadoPublicacion == '1') ? 'Publicado'  : (this.estadoPublicacion == '2') ? 'Vendido'  : 'Borrado') + '</td>';
             tableContent += '<td>' + this.idUsuario + '</td>';
              tableContent += '<td>' + this.fechaCreacion + '</td>';
-            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.idUsuario + '">Borrar</a></td>';
+            tableContent += '<td><a href="#" class="linkdeletepubli" rel="' + this.idPublicacion + '">Borrar</a></td>';
             tableContent += '</tr>';
         });
 
@@ -223,6 +228,47 @@ function deleteUser(event) {
 
             // Update the table
             populateTable();
+
+        });
+
+    }
+    else {
+
+        // If they said no to the confirm, do nothing
+        return false;
+
+    }
+
+};
+
+
+
+// Delete User
+function deletePubli(event) {
+
+    event.preventDefault();
+
+    // Pop up a confirmation dialog
+    var confirmation = confirm('Seguro que deseas eliminar esta publicacion?');
+
+    // Check and make sure the user confirmed
+    if (confirmation === true) {
+
+        // If they did, do our delete
+        $.ajax({
+            type: 'GET',
+            url: '/deletepubli/' + $(this).attr('rel')
+        }).done(function( response ) {
+
+            // Check for a successful (blank) response
+            if (response.msg === '') {
+            }
+            else {
+                alert('Error: ' + response.msg);
+            }
+
+            // Update the table
+            populateTable2();
 
         });
 
