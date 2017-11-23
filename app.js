@@ -109,6 +109,25 @@ expressApp.get('/userlist', function(req, res) {
 
 });
 
+expressApp.get('/getPublisTodas', function(req, res) {
+/*    var db = req.db;
+    var collection = db.get('userlist');
+    collection.find({},{},function(e,docs){
+        res.json(docs);
+    });*/
+
+
+        db(`SELECT  titulo,estadoPublicacion, idUsuario, fechaCreacion, idPublicacion
+        FROM publicaciones`).then((data) => {
+      console.log(data);
+      res.json(data);
+
+    }).catch(err => res.send(err).status(500));
+
+
+});
+
+
     expressApp.post('/verificarFBLog', (req, res) => {
     db(`SELECT  idUsuario
         FROM usuarios 

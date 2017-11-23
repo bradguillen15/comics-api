@@ -70,6 +70,7 @@ function populateTable() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
+            tableContent += '<td>' + this.idUsuario + '</td>';
             tableContent += '<td>' + this.nombre + '</td>';
             tableContent += '<td>' + this.email + '</td>';
             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.idUsuario + '">Borrar</a></td>';
@@ -81,6 +82,39 @@ function populateTable() {
         $('#tablaUsuarios').DataTable();
     });
 };
+
+
+
+
+function populateTable2() {
+
+    // Empty content string
+    var tableContent = '';
+
+    // jQuery AJAX call for JSON
+    $.getJSON( '/getPublisTodas', function( data ) {
+
+        // Stick our user data array into a userlist variable in the global object
+        userListData = data;
+
+        // For each item in our JSON, add a table row and cells to the content string
+        $.each(data, function(){
+            tableContent += '<tr>';
+            tableContent += '<td>' + this.titulo + '</td>';
+            tableContent += '<td>' + this.estadoPublicacion + '</td>';
+            tableContent += '<td>' + this.idUsuario + '</td>';
+             tableContent += '<td>' + this.fechaCreacion + '</td>';
+            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.idUsuario + '">Borrar</a></td>';
+            tableContent += '</tr>';
+        });
+
+        // Inject the whole content string into our existing HTML table
+        $('#publisList table tbody').html(tableContent);
+        $('#tablaPublis').DataTable();
+    });
+};
+
+
 
 
 

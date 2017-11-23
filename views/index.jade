@@ -22,30 +22,29 @@ block content
         // /USER INFO
 
         // USER LIST
-        h2 User List
+        h2 Usuarios registrados
         #userList
             table#tablaUsuarios
                 thead
+                    th ID
                     th Nombre
                     th Email
                     th Borrar
                 tbody
         // /USER LIST
 
-        // ADD USER
-        h2 Add User
-        #addUser
-            fieldset
-                input#inputUserName(type='text', placeholder='Username')
-                input#inputUserEmail(type='text', placeholder='Email')
-                br
-                input#inputUserFullname(type='text', placeholder='Full Name')
-                input#inputUserAge(type='text', placeholder='Age')
-                br
-                input#inputUserLocation(type='text', placeholder='Location')
-                input#inputUserGender(type='text', placeholder='gender')
-                br
-                button#btnAddUser Add User
-        // /ADD USER
+        // PUBLICACIONES LIST
+
+        h2 Publicaciones
+        #publisList
+            table#tablaPublis
+                thead
+                    th Titulo
+                    th Estado
+                    th ID Usuarios
+                    th Fecha Publicacion
+                    th Borrar
+                tbody
+        // /PUBLICACIONES LIST
 
     // /WRAPPER
