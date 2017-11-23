@@ -21,8 +21,10 @@ const app = () => {
   expressApp.use(bodyParser.json());
 
 
-
+expressApp.set('views', path.join(__dirname, 'views'));
+expressApp.set('view engine', 'jade');
 //addUsuario
+expressApp.use(express.static(path.join(__dirname, 'public')));
 
 
   expressApp.post('/addUsuario', (req, res) => {
@@ -72,6 +74,13 @@ console.log(req.body);
   });
 
 
+  expressApp.get('/consola', function(req, res) {
+  res.render('index', { title: 'Express' });
+  });
+
+
+
+
   expressApp.post('/cerrarSesion', (req, res) => {
     db(`UPDATE pushHandler SET logout = CURRENT_TIMESTAMP WHERE deviceID = ? AND idUsuario = ? AND logout IS NULL
         `,[req.body.device, req.body.user])
@@ -103,9 +112,9 @@ console.log(req.body);
   expressApp.post('/recuperar', (req, res) => {
 
     
-    var nueva = Math.random().toString(36).substr(2, 8);
+    const nueva = Math.random().toString(36).substr(2, 8);
 
-
+    console.log(nueva);
 
 
     db(`UPDATE usuarios SET pass = ? WHERE email=?
@@ -116,9 +125,8 @@ console.log(req.body);
         if (!data) {res.send().status(500);}
         else{
 
-          var stringEmail =  "<b>La clave de su cuenta en el app Ultra Doujinshi ha sido restablecida, su clave nueva es: "+nueva+"</b>";
-          var mail = require("nodemailer").mail;
-
+          var stringEmail =  "La clave de su cuenta en el app Ultra Doujinshi ha sido restablecida, su clave nueva es: "+nueva;
+          console.log(nueva);
           mail({
             from: "Ultra Doujinshi <ultradoujinshi@gmail.com>", // sender address
             to: req.body.email, // list of receivers
