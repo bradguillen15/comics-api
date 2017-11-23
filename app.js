@@ -100,9 +100,7 @@ expressApp.get('/userlist', function(req, res) {
 
 
         db(`SELECT  *
-        FROM usuarios 
-        WHERE 
-    `).then((data) => {
+        FROM usuarios`).then((data) => {
       console.log(data);
       res.json(data);
 
