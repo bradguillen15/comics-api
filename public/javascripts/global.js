@@ -16,6 +16,10 @@ $(document).ready(function() {
     // Delete User link click
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 
+
+    
+
+
 });
 
 // Functions =============================================================
@@ -74,6 +78,7 @@ function populateTable() {
 
         // Inject the whole content string into our existing HTML table
         $('#userList table tbody').html(tableContent);
+        $('#tablaUsuarios').DataTable();
     });
 };
 
