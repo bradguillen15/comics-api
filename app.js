@@ -91,6 +91,25 @@ console.log(req.body);
   });
 
 
+expressApp.get('/userlist', function(req, res) {
+/*    var db = req.db;
+    var collection = db.get('userlist');
+    collection.find({},{},function(e,docs){
+        res.json(docs);
+    });*/
+
+
+        db(`SELECT  *
+        FROM usuarios 
+        WHERE 
+    `).then((data) => {
+      console.log(data);
+      res.json(data);
+
+    }).catch(err => res.send(err).status(500));
+
+
+});
 
     expressApp.post('/verificarFBLog', (req, res) => {
     db(`SELECT  idUsuario
