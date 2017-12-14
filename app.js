@@ -541,7 +541,7 @@ var nombreV = 'publicacion'+req.body.idPublicacion;
     res.send('Api is running in port 3000'));
 
   return expressApp.listen(
-    server.port,
+    3000,
     () => console.log('Connection has been established successfully.')
   );
 };
