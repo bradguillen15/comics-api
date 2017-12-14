@@ -9,7 +9,7 @@ const credentials = () => ({
       max: 5,
       min: 0,
       idle: 10000
-    },
+    }
   },
   server: {
     port: 3000,
