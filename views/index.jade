@@ -15,7 +15,7 @@ block content
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data.data.result.items, function(){    
-        tableContent += '<img src="'+this.media+'">';
+        tableContent += '<img class="imgs" src="'+this.media+'">';
         });
 
         // Inject the whole content string into our existing HTML table

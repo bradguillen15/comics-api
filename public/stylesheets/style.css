@@ -12,7 +12,11 @@ h2 {
 a {
   color: #00B7FF;
 }
-
+.imgs{    height: 130px;
+    width: 130px;
+    display: inline-block;
+    margin: 40px;
+}
 #wrapper {
 	
 	position:relative;
