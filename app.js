@@ -19,7 +19,7 @@ const app = () => {
   const expressApp = express();
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-expressApp.use(cors({origin: '*'}));
+expressApp.use(cors({origin: 'null'}));
 
 
 
