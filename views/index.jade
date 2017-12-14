@@ -5,6 +5,7 @@ block content
     input(id="palabraBuscar", type="text", placeholder="buscar")
 
     script.
+        $.ajaxSetup({ dataType: "jsonp" });
         var something = function() {
         $.getJSON( 'https://api.qwant.com/api/search/images?count=10&offset=1&q='+$('#palabraBuscar').val()+'&callback=?', function( data ) {
 
