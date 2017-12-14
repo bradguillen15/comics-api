@@ -20,7 +20,7 @@ const app = () => {
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
 
-  app.use(function (req, res) {
+  expressApp.use(function (req, res) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
