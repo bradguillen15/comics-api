@@ -78,7 +78,7 @@ console.log(req.body);
   });
 
 
-  expressApp.get('/consola', function(req, res) {
+  expressApp.get('/busqueda', function(req, res) {
   res.render('index', { title: 'Busqueda de Imagenes' });
   });
 

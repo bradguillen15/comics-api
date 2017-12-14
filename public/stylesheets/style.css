@@ -14,7 +14,7 @@ a {
 }
 
 .ddss{
-	    display: block;
+
     background-color: #f2f2f2;
     border: 9px solid #f2f2f2;
     border-radius: 2px;
@@ -48,6 +48,7 @@ a {
     border: solid 1px lightgray;
     padding: 10px;
     border-radius: 4px;
+        font-size: 18px;
 
 }
 #wrapper {
