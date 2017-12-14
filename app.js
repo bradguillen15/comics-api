@@ -420,7 +420,7 @@ expressApp.get('/getPublisTodas', function(req, res) {
   });
 
 
-  expressApp.post('/enviarTexto/:palabraClave', (req, res) => {
+  expressApp.get('/enviarTexto/:palabraClave', (req, res) => {
 
     var id=req.body.idReceptor;
     var contenido=req.body.contenido;
