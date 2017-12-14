@@ -4,33 +4,9 @@ block content
     h1= title
     p Consola administrativa
 
-    // Wrapper
-    #wrapper
+    script.
+    var something = function() {
+    console.log('something')
+    }
 
-        // USER LIST
-        h2 Usuarios registrados
-        #userList
-            table#tablaUsuarios
-                thead
-                    th ID
-                    th Nombre
-                    th Email
-                    th Borrar
-                tbody
-        // /USER LIST
-
-        // PUBLICACIONES LIST
-
-        h2 Publicaciones Realizadas
-        #publisList
-            table#tablaPublis
-                thead
-                    th Titulo
-                    th Estado
-                    th ID Usuarios
-                    th Fecha Publicacion
-                    th Borrar
-                tbody
-        // /PUBLICACIONES LIST
-
-    // /WRAPPER
+    button(onclick='something()') Click
