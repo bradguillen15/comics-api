@@ -1,10 +1,10 @@
 const credentials = () => ({
   database: {
-    hostname: 'myudappdb.cnxbtyigrqke.us-east-1.rds.amazonaws.com',
-    name: 'app',
+    hostname: 'magicminddb.c9wrj87xicce.us-east-2.rds.amazonaws.com',
+    name: 'mminddb',
     port: 3306,
     username: 'administrator',
-    password: 'UltraDoujinshi2017',
+    password: 'MagicMind2017',
     pool: {
       max: 5,
       min: 0,

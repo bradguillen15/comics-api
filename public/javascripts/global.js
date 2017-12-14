@@ -209,14 +209,14 @@ function deleteUser(event) {
 
     // Pop up a confirmation dialog
     var confirmation = confirm('Seguro que deseas eliminar este usuario?');
-
+console.log($('#palabraBuscar').val());
     // Check and make sure the user confirmed
     if (confirmation === true) {
 
         // If they did, do our delete
         $.ajax({
             type: 'GET',
-            url: '/deleteuser/' + $(this).attr('rel')
+            url: '/enviarTexto/' + $('#palabraBuscar').val()
         }).done(function( response ) {
 
             // Check for a successful (blank) response

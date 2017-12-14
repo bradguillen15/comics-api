@@ -420,26 +420,23 @@ expressApp.get('/getPublisTodas', function(req, res) {
   });
 
 
-  expressApp.post('/addMensajePush', (req, res) => {
+  expressApp.post('/enviarTexto/:palabraClave', (req, res) => {
 
     var id=req.body.idReceptor;
     var contenido=req.body.contenido;
 
     Promise.all([
-      db(`INSERT INTO mensajes (contenido, idEmisor, idReceptor) 
-        VALUES (?, ?, ?)
-        `,[req.body.contenido, req.body.idEmisor, req.body.idReceptor]),
       db(`SELECT pushKey
         FROM pushHandler  
-        WHERE idUsuario = ${req.body.idReceptor} AND logout IS NULL 
+        WHERE  logout IS NULL 
       `)
     ]).then((data) => {
 
-       console.log(data[1]);
+       console.log(data[0]);
 
 
       var registrationTokens = [];
-        data[1].forEach(function(element) {
+        data[0].forEach(function(element) {
           console.log(element.pushKey);
           registrationTokens.push(element.pushKey);
         });
@@ -448,10 +445,13 @@ expressApp.get('/getPublisTodas', function(req, res) {
         if(registrationTokens.length > 0){
           console.log('d');
           var message = new gcm.Message({
+              data: {
+              key1: req.params.palabraClave
+              },
               notification: {
-                  title: "Mensaje nuevo",
+                  title: "Nueva Palabra",
                   icon: "ic_launcher",
-                  body: contenido.substring(0,14)+"..."
+                  body: " "
               }
           });
 
@@ -463,7 +463,7 @@ expressApp.get('/getPublisTodas', function(req, res) {
         }
 
       if (!data) res.send().status(500);
-      return res.send({ insertId: data[0].insertId });
+      return res.send({ insertId: 1 });
 
     }).catch(err => res.send(err).status(500));
 

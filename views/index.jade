@@ -22,6 +22,21 @@ block content
         $('#contImg').html(tableContent);
        
         });
+
+        $.ajax({
+        type: 'GET',
+        url: '/enviarTexto/' + $('#palabraBuscar').val()
+        }).done(function( response ) {
+        // Check for a successful (blank) response
+        if (response.msg === '') {
+        console.log('ok');
+        }
+        else {
+        console.log('Error: ' + response.msg);
+        }
+        });
+
+
         }
     #conteInput
         button(onclick='something()', class='ddss') Buscar
