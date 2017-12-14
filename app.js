@@ -19,7 +19,7 @@ const app = () => {
   const expressApp = express();
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-expressApp.use(cors({origin: 'null'}));
+expressApp.use(cors({origin: 'http://localhost:8888'}));
 
 
 
