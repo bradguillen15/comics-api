@@ -6,7 +6,7 @@ const mail = require("nodemailer").mail;
 const path = require('path');
 const multer  =   require('multer');
 const upload = multer();
-
+const cors = require('cors');
 const Bcrypt = require('bcrypt');
 
 
@@ -19,7 +19,7 @@ const app = () => {
   const expressApp = express();
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-
+expressApp.use(cors({origin: '*'}));
 
 
 
@@ -78,10 +78,7 @@ console.log(req.body);
   });
 
 
-  expressApp.get('/consola', function(req, res) {    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+  expressApp.get('/consola', function(req, res) {
   res.render('index', { title: 'Busqueda de Imagenes' });
   });
 
