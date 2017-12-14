@@ -2,7 +2,8 @@ extends layout
 
 block content
     h1= title
-    input(id="palabraBuscar", type="text", placeholder="buscar")
+    #conteInput
+        input(id="palabraBuscar", class="inputP", type="text", placeholder="buscar")
 
     script.
         
@@ -24,5 +25,5 @@ block content
         });
         }
 
-    button(onclick='something()') Buscar
+    button(onclick='something()', class='ddss') Buscar
     #contImg

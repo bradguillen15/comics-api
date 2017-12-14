@@ -12,10 +12,43 @@ h2 {
 a {
   color: #00B7FF;
 }
+
+.ddss{
+	    display: block;
+    background-color: #f2f2f2;
+    border: 9px solid #f2f2f2;
+    border-radius: 2px;
+    color: #757575;
+    cursor: default;
+    font-family: arial,sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 11px 4px;
+    min-width: 56px;
+    padding: 0 30px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#conteInput{
+ width: 100%;
+ text-align: center;
+
+}
 .imgs{    height: 130px;
     width: 130px;
     display: inline-block;
     margin: 40px;
+}
+
+.inputP{
+
+	    width: 400px;
+    height: 12px;
+    border: solid 1px lightgray;
+    padding: 10px;
+    border-radius: 4px;
+
 }
 #wrapper {
 	
