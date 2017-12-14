@@ -7,6 +7,21 @@ block content
     script.
         var something = function() {
         console.log($('#palabraBuscar').val());
+        $.getJSON( '/https://api.qwant.com/api/search/images?count=10&offset=1&q='+palabra, function( data ) {
+
+        // Stick our user data array into a userlist variable in the global object
+        userListData = data;
+
+        // For each item in our JSON, add a table row and cells to the content string
+        $.each(data.result.items, function(){    
+        tableContent += '<img src="'+this.thumbnail+'">';
+        });
+
+        // Inject the whole content string into our existing HTML table
+        $('#contImg').html(tableContent);
+       
+        });
         }
 
     button(onclick='something()') Buscar
+    #contImg

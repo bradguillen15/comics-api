@@ -5,20 +5,20 @@ var userListData = [];
 $(document).ready(function() {
 
     // Populate the user table on initial page load
-    populateTable();
-populateTable2();
+  //  populateTable();
+//populateTable2();
     // Username link click
-    $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+  //  $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
 
     // Add User button click
-    $('#btnAddUser').on('click', addUser);
+    //$('#btnAddUser').on('click', addUser);
 
     // Delete User link click
-    $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+    //$('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 
 
     // Delete Publi link click
-    $('#publisList table tbody').on('click', 'td a.linkdeletepubli', deletePubli);
+  //  $('#publisList table tbody').on('click', 'td a.linkdeletepubli', deletePubli);
 
 
 
@@ -67,7 +67,7 @@ function populateTable() {
     var tableContent = '';
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/userlist', function( data ) {
+    $.getJSON( '/https://api.qwant.com/api/search/images?count=10&offset=1&q='+palabra, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         userListData = data;
