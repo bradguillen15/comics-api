@@ -5,13 +5,13 @@ block content
     input(id="palabraBuscar", type="text", placeholder="buscar")
 
     script.
+
+
         var something = function() {
-        $.getJSON('https://api.qwant.com/api/search/images?count=10&offset=1&q='+$('#palabraBuscar').val(), function( data ) {
 
+        $.getJSON('https://api.qwant.com/api/search/images?count=10&offset=1&q='+$('#palabraBuscar').val()+'&callback=?', function( data ) {
         // Stick our user data array into a userlist variable in the global object
-        
         console.log(data);
-
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data.result.items, function(){    
         tableContent += '<img src="'+this.thumbnail+'">';
