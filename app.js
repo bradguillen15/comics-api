@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const gcm = require('node-gcm');
-const amazonS3 = require('./s3Service.js');
+
 const mail = require("nodemailer").mail;
 const path = require('path');
 const multer  =   require('multer');
 const upload = multer();
 
 const Bcrypt = require('bcrypt');
-const { server } = require('./config/credentials');
+
 
 const db = require('./config/db');
 
