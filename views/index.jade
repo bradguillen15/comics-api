@@ -2,11 +2,11 @@ extends layout
 
 block content
     h1= title
-    p Consola administrativa
+    input#palabraBuscar (type="text", placeholder="buscar")
 
     script.
         var something = function() {
-        console.log('something')
+        console.log($('#palabraBuscar').val();)
         }
 
-    button(onclick='something()') Click
+    button(onclick='something()') Buscar
