@@ -78,7 +78,7 @@ console.log(req.body);
   });
 
 
-  expressApp.get('/busqueda', function(req, res) {
+  expressApp.get('/', function(req, res) {
   res.render('index', { title: 'Busqueda de Imagenes' });
   });
 
@@ -541,8 +541,8 @@ var nombreV = 'publicacion'+req.body.idPublicacion;
 
 
 
-  expressApp.get('/', (req, res) =>
-    res.send('Api is running in port 3000'));
+/*  expressApp.get('/', (req, res) =>
+    res.send('Api is running in port 3000'));*/
 
   return expressApp.listen(
     3000,
