@@ -23,7 +23,9 @@ block content
         $('#contImg').html(tableContent);
        
         });
-        console.log($('#userMM').val());
+        console.log('dasd');
+        console.log($("#userMM").text());
+        
         $.ajax({
         type: 'GET',
         url: '/enviarTexto/' + $('#palabraBuscar').val()
