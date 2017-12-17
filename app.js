@@ -42,7 +42,7 @@ expressApp.use(express.static(path.join(__dirname, 'public')));
 
 
     db(`INSERT INTO usuarios (email, pass, nombre) 
-        VALUES (?,?,?,?)
+        VALUES (?,?,?)
         `,[req.body.email, req.body.pass,req.body.nombre])
       .then((data) => {
         console.log(data);
