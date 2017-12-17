@@ -78,8 +78,8 @@ console.log(req.body);
   });
 
 
-  expressApp.get('/', function(req, res) {
-  res.render('index', { title: 'Busqueda de Imagenes' });
+  expressApp.get('/:usuario', function(req, res) {
+  res.render('index', { title: 'Busqueda de Imagenes', usuario: req.params.idPublicacion });
   });
 
 

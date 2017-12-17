@@ -2,10 +2,11 @@ extends layout
 
 block content
     h1= title
+    h1(id="userMM") = usuario
     input(id="palabraBuscar", class="inputP", type="text", placeholder="buscar")
 
     script.
-        
+            
         var something = function() {
         var tableContent = '';
         $.getJSON( 'https://cors-anywhere.herokuapp.com/https://api.qwant.com/api/search/images?count=10&offset=1&q='+$('#palabraBuscar').val(), function( data ) {
@@ -22,7 +23,7 @@ block content
         $('#contImg').html(tableContent);
        
         });
-
+        console.log($('#userMM').val());
         $.ajax({
         type: 'GET',
         url: '/enviarTexto/' + $('#palabraBuscar').val()
