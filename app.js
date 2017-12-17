@@ -41,9 +41,9 @@ expressApp.use(express.static(path.join(__dirname, 'public')));
     //,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono]
 
 
-    db(`INSERT INTO usuarios (email, pass, nombre, telefono) 
+    db(`INSERT INTO usuarios (email, pass, nombre) 
         VALUES (?,?,?,?)
-        `,[req.body.email, req.body.pass,req.body.nombre,req.body.telefono])
+        `,[req.body.email, req.body.pass,req.body.nombre])
       .then((data) => {
         console.log(data);
         if (!data) {res.send().status(500);}
