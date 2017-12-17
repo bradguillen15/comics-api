@@ -420,15 +420,14 @@ expressApp.get('/getPublisTodas', function(req, res) {
   });
 
 
-  expressApp.get('/enviarTexto/:palabraClave', (req, res) => {
+  expressApp.get('/enviarTexto/:palabraClave/:usuario', (req, res) => {
 
-    var id=req.body.idReceptor;
-    var contenido=req.body.contenido;
+    //req.params.usuario
 
     Promise.all([
       db(`SELECT pushKey
         FROM pushHandler  
-        WHERE  logout IS NULL 
+        WHERE  idUsuario = ${req.params.usuario}
       `)
     ]).then((data) => {
 
