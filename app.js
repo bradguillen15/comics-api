@@ -79,7 +79,7 @@ console.log(req.body);
 
 
   expressApp.get('/:usuario', function(req, res) {
-  res.render('index', { title: 'Busqueda de Imagenes', usuario: req.params.idPublicacion });
+  res.render('index', { title: 'Busqueda de Imagenes', usuario: req.params.usuario });
   });
 
 
